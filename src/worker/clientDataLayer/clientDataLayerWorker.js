@@ -1,17 +1,21 @@
 import { CLIENT_DATA_LAYER_ACTION } from './constant';
 
-onmessage = async (event) => {
+self.addEventListener('message', (event) => {
   const { requestInfo, action } = event.data;
 
   if (action === CLIENT_DATA_LAYER_ACTION.FETCH) {
-    const response = await fetchData(requestInfo.url, requestInfo.options);
-    console.log('Worker: Fetch', response);
-    postMessage({
-      response,
-      action,
-    });
+    const fetchPromise = fetchData(requestInfo.url, requestInfo.options);
+    Promise.resolve(fetchPromise)
+      .catch((e) => console.error(e))
+      .then((response) => {
+        console.info('Worker: Fetch', response);
+        self.postMessage({
+          response,
+          action,
+        });
+      });
   }
-};
+});
 
 async function fetchData(url, options) {
   const response = await fetch(url, options);

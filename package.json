@@ -9,5 +9,8 @@
   "devDependencies": {
     "parcel": "^2.0.0"
   },
-  "keywords": []
+  "keywords": [],
+  "dependencies": {
+    "comlink": "^4.4.1"
+  }
 }

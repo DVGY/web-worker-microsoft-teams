@@ -7,12 +7,13 @@ const worker = new Worker(
 
 export async function customFetch(url, options) {
   return new Promise((resolve, reject) => {
-    worker.onmessage = (event) => {
+    worker.addEventListener('message', function handleMessage(event) {
       const { action } = event.data;
       if (action === CLIENT_DATA_LAYER_ACTION.FETCH) {
+        console.log('Resolving: ', event.data);
         resolve(event.data.response);
       }
-    };
+    });
 
     console.info('---Sending Request to worker----');
     worker.postMessage({
