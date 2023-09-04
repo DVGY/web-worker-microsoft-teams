@@ -1,3 +1,4 @@
 export const CLIENT_DATA_LAYER_ACTION = {
-  FETCH: "FETCH"
+  FETCH: 'FETCH',
+  IDB_QUERY: 'IDB_QUERY',
 };

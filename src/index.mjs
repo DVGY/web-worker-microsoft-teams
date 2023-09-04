@@ -20,15 +20,15 @@ const getPlanetsBtn = document.getElementById('getPlanetsBtn');
 const planetsContainer = document.getElementById('planetsContainer');
 
 getPlanetsBtn.addEventListener('click', async (e) => {
-  const posts = await fetchPost();
+  const planets = await fetchPost();
 
-  console.log({ posts });
+  console.log({ planets });
 
-  posts.forEach((post) => {
+  planets.forEach((planet) => {
     const childElement = document.createElement('h6');
     childElement.textContent = `
     
-    <h6> ${post.name} ${post.climate} </h6>
+    <h6> ${planet.name} ${planet.climate} </h6>
     
     `;
     planetsContainer.appendChild(childElement);
@@ -36,17 +36,27 @@ getPlanetsBtn.addEventListener('click', async (e) => {
 });
 
 async function fetchPost() {
-  // const res1 = await customFetch('https://swapi.dev/api/planets/3/');
-  // const res2 = await customFetch('https://swapi.dev/api/planets/4/');
+  const res1 = await customFetch('https://swapi.dev/api/planets/3/');
+  const res2 = await customFetch('https://swapi.dev/api/planets/4/');
 
-  // console.log({ res1, res2 });
+  console.log({ res1, res2 });
 
+  const res3 = await Promise.all([
+    customFetch('https://swapi.dev/api/planets/1/'),
+    customFetch('https://swapi.dev/api/planets/2/'),
+    customFetch('https://swapi.dev/api/planets/3/'),
+    customFetch('https://swapi.dev/api/planets/4/'),
+  ]);
+
+  console.log({ res3 });
+
+  return [res1, res2, ...res3];
   // return [res1, res2];
 
-  return await Promise.all([
-    customFetch('https://swapi.dev/api/planets/1/'),
-    customFetch('https://swapi.dev/api/planets/3/'),
-  ]);
+  // return await Promise.all([
+  //   customFetch('https://swapi.dev/api/planets/1/'),
+  //   customFetch('https://swapi.dev/api/planets/3/'),
+  // ]);
 }
 
 // fetchPost();
