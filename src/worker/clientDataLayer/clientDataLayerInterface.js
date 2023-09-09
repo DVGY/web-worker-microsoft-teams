@@ -25,7 +25,7 @@ export async function customFetch(url, options) {
   });
 }
 
-export function IDBQuery(db) {
+export function customIDBQuery(dbName, version, schemaDef, queries) {
   return new Promise((resolve, reject) => {
     const id = Date.now() + Math.random();
     worker.addEventListener('message', function handleMessage(event) {
@@ -36,10 +36,16 @@ export function IDBQuery(db) {
       }
     });
 
+    console.log(dbName, version, schemaDef, queries);
     // console.info('---Sending Request to worker----');
     worker.postMessage({
       action: CLIENT_DATA_LAYER_ACTION.IDB_QUERY,
-      requestInfo: { dbName },
+      requestInfo: {
+        dbName,
+        version,
+        schemaDef,
+        queries,
+      },
       id,
     });
   });
